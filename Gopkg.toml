@@ -24,3 +24,7 @@
 [[constraint]]
   name = "github.com/line/line-bot-sdk-go"
   version = "1.0.0"
+
+[metadata.heroku]
+  root-package = "github.com/ankion/LineBot-igdl"
+  go-version = "go1.9.2"
