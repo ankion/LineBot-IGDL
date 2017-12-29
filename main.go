@@ -29,7 +29,6 @@ func main() {
 	}
 
 	http.HandleFunc("/callback", func(w http.ResponseWriter, req *http.Request) {
-		// log.Println("[event] Receive message.")
 		events, err := bot.ParseRequest(req)
 		if err != nil {
 			if err == linebot.ErrInvalidSignature {
@@ -40,7 +39,6 @@ func main() {
 			return
 		}
 		for _, event := range events {
-			// log.Printf("[event] type: %s\n", event.Type)
 			if event.Type == linebot.EventTypeMessage {
 				switch message := event.Message.(type) {
 				case *linebot.TextMessage:
@@ -94,13 +92,13 @@ func parseIG(igURL string) (int, []string, error) {
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
-	// fmt.Println(string(body))
+
 	re := regexp.MustCompile(`<meta property=\"og:image\" content=\"(.*)\" />`)
 	baseURL := re.FindStringSubmatch(string(body))
 	if len(baseURL) < 1 {
 		return IgTypeNone, nil, errors.New("No such base url")
 	}
-	// fmt.Println("baseURL:" + baseURL[1])
+
 	re = regexp.MustCompile(`<meta property="og:video:secure_url" content="(.*)" />`)
 	baseVideoURL := re.FindStringSubmatch(string(body))
 	if len(baseVideoURL) > 0 {
@@ -111,9 +109,8 @@ func parseIG(igURL string) (int, []string, error) {
 	if len(baseDomain) < 1 {
 		return IgTypeNone, nil, errors.New("No such base domain")
 	}
-	// fmt.Println(baseDomain[0])
+
 	re = regexp.MustCompile(`"display_url": "(` + baseDomain[0] + `/\d+_\d+_\d+_n\.jpg)",`)
-	// re := regexp.MustCompile(`{"src": "(.*)", "config_width": 1080, "config_height": 1080}], "is_video": false`)
 	photoURLs := re.FindAllStringSubmatch(string(body), -1)
 	result := []string{}
 	for _, v := range photoURLs {
@@ -121,8 +118,6 @@ func parseIG(igURL string) (int, []string, error) {
 			result = append(result, v[1])
 		}
 	}
-	// fmt.Println(result)
-	// fmt.Println(photoURLs)
 
 	return IgTypeImage, result, nil
 }
