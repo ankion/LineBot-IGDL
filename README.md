@@ -6,4 +6,4 @@
 
 ## 立即加入好友
 
-![image](https://qr-official.line.me/M/Eio5A-kd8u.png)
+![image](https://raw.githubusercontent.com/ankion/LineBot-igdl/master/line-qr.png)
